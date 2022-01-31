@@ -12,24 +12,32 @@ public class TestaConexao {
 	Connection connection = 
 			DriverManager.getConnection
 			("jdbc:mysql://localhost/loja_virtual?useTimezone=true&serverTimezone=UTC", "root", "8h7mbebesd");
-	
-			String nome = "mouse 2'";
-			String descricao = "mouse sem fio 2";
-	
-			PreparedStatement stm = connection.prepareStatement("INSERT INTO PRODUTO (nome, descricao) VALUES (?, ?)", 
-					Statement.RETURN_GENERATED_KEYS);
-			stm.setString(1, nome);
-			stm.setString(2,descricao);
-			
-			stm.execute();
-			
-			ResultSet rst = stm.getGeneratedKeys();
-			while(rst.next()) {
-				Integer id = rst.getInt(1);
-				System.out.println("O id criado foi: "+id);
-			}
-			
-	connection.close();
+			connection.setAutoCommit(false);
+		
+			try {
+				PreparedStatement stm = connection.prepareStatement("INSERT INTO PRODUTO (nome, descricao) VALUES (?, ?)", 
+						Statement.RETURN_GENERATED_KEYS);
+				adiconarVariavel("Smart Tv", "45 Polegadas", stm);
+				adiconarVariavel("Radio", "Radio a Bateria", stm);
+				connection.commit();
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("ROLLBACK EXECUTADO");
+				connection.rollback();
+			}			
+			connection.close();
+	}
+
+	private static void adiconarVariavel(String nome, String descricao, PreparedStatement stm) throws SQLException {
+		stm.setString(1, nome);
+		stm.setString(2,descricao);	
+		stm.execute();
+		
+		ResultSet rst = stm.getGeneratedKeys();
+		while(rst.next()) {
+			Integer id = rst.getInt(1);
+			System.out.println("O id criado foi: "+id);
+		}
 	}
 
 }
