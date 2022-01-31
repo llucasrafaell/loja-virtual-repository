@@ -14,9 +14,8 @@ public class TestaConexao {
 			("jdbc:mysql://localhost/loja_virtual?useTimezone=true&serverTimezone=UTC", "root", "8h7mbebesd");
 			connection.setAutoCommit(false);
 		
-			try {
-				PreparedStatement stm = connection.prepareStatement("INSERT INTO PRODUTO (nome, descricao) VALUES (?, ?)", 
-						Statement.RETURN_GENERATED_KEYS);
+			try (PreparedStatement stm = connection.prepareStatement("INSERT INTO PRODUTO (nome, descricao) VALUES (?, ?)", 
+						Statement.RETURN_GENERATED_KEYS);){
 				adiconarVariavel("Smart Tv", "45 Polegadas", stm);
 				adiconarVariavel("Radio", "Radio a Bateria", stm);
 				connection.commit();
@@ -33,11 +32,11 @@ public class TestaConexao {
 		stm.setString(2,descricao);	
 		stm.execute();
 		
-		ResultSet rst = stm.getGeneratedKeys();
+		try (ResultSet rst = stm.getGeneratedKeys()){
 		while(rst.next()) {
 			Integer id = rst.getInt(1);
 			System.out.println("O id criado foi: "+id);
+			}
 		}
 	}
-
 }
