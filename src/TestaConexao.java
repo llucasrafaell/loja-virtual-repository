@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -13,10 +14,18 @@ public class TestaConexao {
 	
 	Statement stm = connection.createStatement();
 	
-	boolean resultados = stm.execute("SELECT ID, NOME, DESCRICAO FROM PRODUTO");
-	//execute é um booleano que retorna um quando a operação (select) for uma lista (ou quando retorna algo)
+	stm.execute("SELECT ID, NOME, DESCRICAO FROM PRODUTO");
 	
-	System.out.println(resultados);
+	ResultSet rst = stm.getResultSet();
+	
+	while(rst.next()) {
+		Integer id = rst.getInt("ID");
+		String nome = rst.getString("NOME");
+		String descricao = rst.getString("DESCRICAO");
+		System.out.println(id + "|" + nome + "|" + descricao);
+	}
+	//laço while utilizando next pra conferir se tem um proximo item atraves do Label da Coluna (ID, NOME, COLUNA)
+	
 	
 	connection.close();
 	}
