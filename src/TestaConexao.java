@@ -13,14 +13,10 @@ public class TestaConexao {
 			("jdbc:mysql://localhost/loja_virtual?useTimezone=true&serverTimezone=UTC", "root", "8h7mbebesd");
 	
 			Statement stm = connection.createStatement();
-			stm.execute("INSERT INTO PRODUTO (nome, descricao) VALUES ('Mouse','Mouse sem fio')"
-					, Statement.RETURN_GENERATED_KEYS);
+			stm.execute("DELETE FROM PRODUTO WHERE ID > 2");
 			
-			ResultSet rst = stm.getGeneratedKeys();
-			while(rst.next()) {
-				Integer id = rst.getInt(1);
-				System.out.println("O id criado foi: "+id);
-			}
+			Integer linhasModificadas = stm.getUpdateCount();
+			System.out.println("Linhas excluidas: " + linhasModificadas);
 			
 	connection.close();
 	}
