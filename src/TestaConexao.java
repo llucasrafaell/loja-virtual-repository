@@ -12,21 +12,16 @@ public class TestaConexao {
 			DriverManager.getConnection
 			("jdbc:mysql://localhost/loja_virtual?useTimezone=true&serverTimezone=UTC", "root", "8h7mbebesd");
 	
-	Statement stm = connection.createStatement();
-	
-	stm.execute("SELECT ID, NOME, DESCRICAO FROM PRODUTO");
-	
-	ResultSet rst = stm.getResultSet();
-	
-	while(rst.next()) {
-		Integer id = rst.getInt("ID");
-		String nome = rst.getString("NOME");
-		String descricao = rst.getString("DESCRICAO");
-		System.out.println(id + "|" + nome + "|" + descricao);
-	}
-	//laço while utilizando next pra conferir se tem um proximo item atraves do Label da Coluna (ID, NOME, COLUNA)
-	
-	
+			Statement stm = connection.createStatement();
+			stm.execute("INSERT INTO PRODUTO (nome, descricao) VALUES ('Mouse','Mouse sem fio')"
+					, Statement.RETURN_GENERATED_KEYS);
+			
+			ResultSet rst = stm.getGeneratedKeys();
+			while(rst.next()) {
+				Integer id = rst.getInt(1);
+				System.out.println("O id criado foi: "+id);
+			}
+			
 	connection.close();
 	}
 
