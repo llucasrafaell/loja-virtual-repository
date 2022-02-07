@@ -11,16 +11,23 @@ public class TestaInsercaoComProduto {
 	
 		//ConnectionFactory connectionFactory = new ConnectionFactory();
 		//Connection connection = connectionFactory.recuperarConexao();
-		
-		
-		Produto comoda = new Produto("Comoda","Comoda Vertical");
-		
 		try(Connection connection = new ConnectionFactory().recuperarConexao()){
-			ProdutoDAO produtoDao = new ProdutoDAO(connection);
-			produtoDao.salvar(comoda);
-			List<Produto> listaDeProdutos = produtoDao.listar();
-			listaDeProdutos.stream().forEach(lp -> System.out.println(lp));
-			
+		CategoriaDAO categoriaDao = new CategoriaDAO(connection);
+		List<Categoria> listaDeCategoria = categoriaDao.listar();
+		listaDeCategoria.stream().forEach(ct -> System.out.println(ct));
+		
 		}
+		
+		
 	}
 }
+
+
+//Produto comoda = new Produto("Comoda","Comoda Vertical");
+//
+//try(Connection connection = new ConnectionFactory().recuperarConexao()){
+//	ProdutoDAO produtoDao = new ProdutoDAO(connection);
+//	produtoDao.salvar(comoda);
+//	List<Produto> listaDeProdutos = produtoDao.listar();
+//	listaDeProdutos.stream().forEach(lp -> System.out.println(lp));
+//	}
