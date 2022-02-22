@@ -13,7 +13,7 @@ public class ConnectionFactory{
 		ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
 		comboPooledDataSource.setJdbcUrl("jdbc:mysql://localhost/loja_virtual?useTimezone=true&serverTimezone=UTC");
 		comboPooledDataSource.setUser("root");
-		comboPooledDataSource.setPassword("8h7mbebesd");
+		comboPooledDataSource.setPassword("Root1256");
 		comboPooledDataSource.setMaxPoolSize(16);
 		this.dataSource = comboPooledDataSource;
 	}
